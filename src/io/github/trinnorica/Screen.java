@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,14 +13,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.TimerTask;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import io.github.trinnorica.utils.Backgrounds;
 import io.github.trinnorica.utils.Board;
 import io.github.trinnorica.utils.Utils;
-import res.Texture;
+import res.ExternalFile;
 
 public class Screen extends JPanel implements ActionListener {
 
@@ -28,9 +29,9 @@ public class Screen extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
-//	Timer timer;
-	java.util.Timer t;
-	int MAXFRAMES = 15;
+	Timer timer;
+//	java.util.Timer t;
+	int DELAY = 15;
 	boolean debug = false;
 	int board = 0;
 	int totalFrameCount = 0;
@@ -40,23 +41,9 @@ public class Screen extends JPanel implements ActionListener {
 	}
 
 	public void init() {
-//		timer = new Timer(MAXFRAMES, this);
-//		timer.start();
+		timer = new Timer(DELAY, this);
+		timer.start();
 		
-		TimerTask updateFPS = new TimerTask() {
-		    public void run() {
-		    	repaint();
-		    	if(debug) getGraphics().drawString(totalFrameCount + "", 50, 50);
-		        // display current totalFrameCount - previous,
-		        // OR
-		        // display current totalFrameCount, then set
-		    	
-		        totalFrameCount = 0;
-		    }
-		};
-
-		t = new java.util.Timer();
-		t.scheduleAtFixedRate(updateFPS, 1, 1);
 		
 
 		addKeyListener(new TAdapter());
@@ -81,20 +68,15 @@ public class Screen extends JPanel implements ActionListener {
 	public void drawMenu(Graphics g) {
 		
 		if(board == Board.MAIN){
-			g.drawImage(Texture.loadTexture("desktop_1.jpg"), 0, 0, this.getWidth(), this.getHeight(), this);
+			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
+			g.drawImage(logo, this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
 		}
 		
 		//Debug overlay
 		if(debug){
-			
-			
-			
-
-			totalFrameCount++;
-			
-			System.out.println(totalFrameCount);
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
-			Utils.drawOutlineString(g, totalFrameCount+"", 0, 20, Color.WHITE, Color.BLACK, 1);
+			Utils.drawOutlineString(g, "Version: " + Utils.getVersion(), 0, 20, Color.WHITE, Color.BLACK, 1);
 		}
 		
 		
