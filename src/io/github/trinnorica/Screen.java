@@ -79,6 +79,7 @@ public class Screen extends JPanel implements ActionListener {
 		g.setFont(new Font("Helvetica", Font.PLAIN, getWidth()/50));
 		
 		if(board == Board.MAIN){
+			Utils.drawOutlineString(g, "Loading...", getWidth()/2 - g.getFontMetrics().stringWidth("Loading...")/2, getHeight()/2, Color.RED, Color.BLACK, 1);
 			menuvar = Utils.drawScrollingImage(g, Backgrounds.MAIN.getImage(), menuvar, 0, this.getWidth(), this.getHeight(), 2);
 //			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
 			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
@@ -90,7 +91,7 @@ public class Screen extends JPanel implements ActionListener {
 			Utils.drawCredit(g, "", creditvar, 2, Color.BLACK, Color.WHITE, 1);
 			Utils.drawCredit(g, "Cameron Witcher (Author)", creditvar, 3, Color.BLACK, Color.WHITE, 1);
 			
-			Image logo = ExternalFile.loadTexture("logos/logo.png");
+			Image logo = ExternalFile.loadTexture("logos/logo-title.png");
 			
 			Utils.drawCreditImage(g, logo, creditvar, 5);
 			
