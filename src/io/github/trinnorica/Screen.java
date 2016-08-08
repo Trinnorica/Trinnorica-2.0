@@ -13,12 +13,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import io.github.trinnorica.utils.Backgrounds;
 import io.github.trinnorica.utils.Board;
+import io.github.trinnorica.utils.Clickable;
 import io.github.trinnorica.utils.Utils;
 import res.ExternalFile;
 
@@ -35,12 +38,14 @@ public class Screen extends JPanel implements ActionListener {
 	boolean debug = false;
 	int board = 0;
 	int totalFrameCount = 0;
-	
+
+
 	public Screen() {
 		init();
 	}
 
 	public void init() {
+		Main.setBoard(Board.MAIN);
 		timer = new Timer(DELAY, this);
 		timer.start();
 		
@@ -71,6 +76,10 @@ public class Screen extends JPanel implements ActionListener {
 			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
 			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
 			g.drawImage(logo, this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
+		}
+		
+		for(Clickable c : Main.getClickables()){
+			c.drawPolygon(g);
 		}
 		
 		//Debug overlay
