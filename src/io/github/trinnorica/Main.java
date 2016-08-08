@@ -10,7 +10,8 @@ import io.github.trinnorica.utils.Utils;
 
 public class Main {
 	
-	private static List<Clickable> clickables = new ArrayList<>(); 
+	private static List<Clickable> clickables = new ArrayList<>();
+	private static Screen screen;
 	
 	
 	public static void main(String[] args){
@@ -19,9 +20,22 @@ public class Main {
 		
 	}
 	
+	public static void setScreen(Screen screen){
+		Main.screen = screen;
+	}
+	public static Screen getScreen(){
+		return screen;
+	}
+	
 	public static void setBoard(int board){
 		if(board == Board.MAIN){
-			clickables.add(new Button(50, 50, 50, 10, "test", null));
+			clickables.add(new Button(screen.getWidth()/2, screen.getHeight()/2, 50, 10, "test", new Runnable(){
+				
+				@Override
+				public void run(){
+					System.out.println("test");
+				}
+			}));
 		}
 	}
 	

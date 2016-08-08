@@ -45,11 +45,9 @@ public class Screen extends JPanel implements ActionListener {
 	}
 
 	public void init() {
-		Main.setBoard(Board.MAIN);
+		
 		timer = new Timer(DELAY, this);
 		timer.start();
-		
-		
 
 		addKeyListener(new TAdapter());
 		addMouseMotionListener(new MMListener());
@@ -60,6 +58,9 @@ public class Screen extends JPanel implements ActionListener {
 		setFocusable(true);
 
 		setPreferredSize(new Dimension(1920, 1080));
+		
+		Main.setScreen(this);
+		Main.setBoard(Board.MAIN);
 		
 	}
 
