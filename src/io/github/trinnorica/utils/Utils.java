@@ -2,7 +2,9 @@ package io.github.trinnorica.utils;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
+import io.github.trinnorica.Main;
 import res.ExternalFile;
 
 public class Utils {
@@ -31,6 +33,38 @@ public class Utils {
 	public static String getVersion() {
 		return version.getVersion();
 	}
+
+
+	public static int drawScrollingImage(Graphics g, Image image, int x, int y, int width, int height, int speed) {
+		g.drawImage(image, x, y, width, height, null);
+		g.drawImage(image, x+width, y, width, height, null);
+		 
+        x -= speed;
+ 
+        // Check to see if the image has gone off stage left
+        if (x <= -1 * width) {
+ 
+            // If it has, line it back up so that its left edge is
+            // lined up to the right side of the other background image
+            x = 0;
+        }
+        
+        return x;
+	}
+
+
+	public static void drawCredit(Graphics g, String string, int creditvar, int i, Color outlinecolor, Color textcolor, int thickness) {
+		drawOutlineString(g, string, Main.getScreen().getWidth()/2 - g.getFontMetrics().stringWidth(string)/2, (((g.getFontMetrics().getHeight())*i)+creditvar)+Main.getScreen().getHeight(), textcolor, outlinecolor, thickness);
+		
+	}
+
+
+	public static void drawCreditImage(Graphics g, Image img, int creditvar, int i) {
+		g.drawImage(img, Main.getScreen().getWidth()/2-img.getWidth(null)/2, (((g.getFontMetrics().getHeight())*i)+creditvar)+Main.getScreen().getHeight(), null);
+	}
+
+
+	
 
 	
 

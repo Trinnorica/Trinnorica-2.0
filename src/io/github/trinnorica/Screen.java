@@ -13,8 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ConcurrentModificationException;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -38,6 +38,8 @@ public class Screen extends JPanel implements ActionListener {
 	boolean debug = false;
 	int board = 0;
 	int totalFrameCount = 0;
+	int menuvar = 0;
+	int creditvar = 0;
 
 
 	public Screen() {
@@ -60,7 +62,8 @@ public class Screen extends JPanel implements ActionListener {
 		setPreferredSize(new Dimension(1920, 1080));
 		
 		Main.setScreen(this);
-		Main.setBoard(Board.MAIN);
+		java.util.Timer t = new java.util.Timer();
+		t.schedule(new TimerTask(){ public void run(){ Main.setBoard(Board.MAIN);}}, 500);
 		
 	}
 
@@ -73,11 +76,30 @@ public class Screen extends JPanel implements ActionListener {
 
 	public void drawMenu(Graphics g) {
 		
+		g.setFont(new Font("Helvetica", Font.PLAIN, getWidth()/50));
+		
 		if(board == Board.MAIN){
-			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+			menuvar = Utils.drawScrollingImage(g, Backgrounds.MAIN.getImage(), menuvar, 0, this.getWidth(), this.getHeight(), 2);
+//			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
 			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
 			g.drawImage(logo, this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
 		}
+		if(board == Board.CREDITS){
+			g.drawImage(Backgrounds.CREDITS.getImage(), 0, 0, getWidth(), getHeight(), this);
+			Utils.drawCredit(g, "Author & Developers", creditvar, 1, Color.BLACK, Color.WHITE, 1);
+			Utils.drawCredit(g, "", creditvar, 2, Color.BLACK, Color.WHITE, 1);
+			Utils.drawCredit(g, "Cameron Witcher (Author)", creditvar, 3, Color.BLACK, Color.WHITE, 1);
+			
+			Image logo = ExternalFile.loadTexture("logos/logo.png");
+			
+			Utils.drawCreditImage(g, logo, creditvar, 5);
+			
+			
+			creditvar-=1;
+			
+			
+		}
+		
 		
 		for(Clickable c : Main.getClickables()){
 			c.drawPolygon(g);
@@ -87,6 +109,9 @@ public class Screen extends JPanel implements ActionListener {
 		if(debug){
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
 			Utils.drawOutlineString(g, "Version: " + Utils.getVersion(), 0, 20, Color.WHITE, Color.BLACK, 1);
+			Utils.drawOutlineString(g, "Clickables: " + Main.getClickables().size(), 0, 40, Color.WHITE, Color.BLACK, 1);
+			
+				
 		}
 		
 		
@@ -113,6 +138,9 @@ public class Screen extends JPanel implements ActionListener {
 				if(debug) debug = false;
 				else debug = true;
 			}
+			if(key == KeyEvent.VK_R){
+				Main.setBoard(Board.MAIN);
+			}
 			
 		}
 	}
@@ -120,6 +148,11 @@ public class Screen extends JPanel implements ActionListener {
 	private class MMListener extends MouseMotionAdapter {
 
 		public void mouseMoved(MouseEvent e) {
+			for(Clickable c : Main.getClickables()){
+				if(c.getPolygon().contains(e.getPoint()))
+					c.mouseEntered(e);
+				else c.mouseExited(e);
+			}
 			
 		}
 		public void mouseDragged(MouseEvent e) {
@@ -134,10 +167,21 @@ public class Screen extends JPanel implements ActionListener {
 		}
 
 		public void mousePressed(MouseEvent e) {
+			try{
+				for(Clickable c : Main.getClickables())
+					if(c.getPolygon().contains(e.getPoint()))
+						c.mousePressed(e);
+			} catch(ConcurrentModificationException ex){
+				return;
+			}
+			
 			
 		}
 
 		public void mouseReleased(MouseEvent e) {
+			for(Clickable c : Main.getClickables())
+				if(c.getPolygon().contains(e.getPoint()))
+						c.mouseReleased(e);
 			
 		}
 	}

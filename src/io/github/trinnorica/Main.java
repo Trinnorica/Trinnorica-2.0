@@ -28,17 +28,32 @@ public class Main {
 	}
 	
 	public static void setBoard(int board){
+		clickables.clear();
+		screen.board = board;
+		
 		if(board == Board.MAIN){
-			clickables.add(new Button(screen.getWidth()/2, screen.getHeight()/2, 50, 10, "test", new Runnable(){
+			screen.menuvar = 0;
+			
+			clickables.add(new Button(screen.getWidth()/4, screen.getHeight()/4 + screen.getHeight()/2, screen.getWidth()/8, 40, "Play", new Runnable(){
 				
 				@Override
 				public void run(){
 					System.out.println("test");
 				}
 			}));
+
+
+			clickables.add(new Button(screen.getWidth()/4 + screen.getWidth()/2, screen.getHeight()/4 + screen.getHeight()/2, screen.getWidth()/8, 40, "Credits", new Runnable(){	
+				@Override
+				public void run(){
+					setBoard(Board.CREDITS);	
+				}
+			}));
+		}
+		if(board == Board.CREDITS){
+			screen.creditvar = 0;
 		}
 	}
-	
 	public static List<Clickable> getClickables(){
 		return clickables;
 		

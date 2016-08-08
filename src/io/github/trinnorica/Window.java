@@ -23,6 +23,7 @@ public class Window extends JFrame {
 		setIconImage(ExternalFile.loadTexture("logos/logo.png"));
 		setTitle("Trinnorica " + Utils.getVersion());
 		setVisible(true);
+		setResizable(false);
 	}
 
 }
