@@ -84,6 +84,7 @@ public class Screen extends JPanel implements ActionListener {
 //			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
 			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
 			g.drawImage(logo, this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
+			g.drawImage(ExternalFile.loadTexture("entity/player/bobbing.gif"), getWidth()/4, getHeight()/2, 60, 60, this);
 		}
 		if(board == Board.CREDITS){
 			g.drawImage(Backgrounds.CREDITS.getImage(), 0, 0, getWidth(), getHeight(), this);
