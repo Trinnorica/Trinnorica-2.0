@@ -13,15 +13,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.List;
 import java.util.TimerTask;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import io.github.trinnorica.entity.Player;
 import io.github.trinnorica.utils.Backgrounds;
 import io.github.trinnorica.utils.Board;
 import io.github.trinnorica.utils.Clickable;
+import io.github.trinnorica.utils.Images;
+import io.github.trinnorica.utils.Keyable;
+import io.github.trinnorica.utils.Moveable;
+import io.github.trinnorica.utils.Sprite;
 import io.github.trinnorica.utils.Utils;
 import res.ExternalFile;
 
@@ -38,8 +45,9 @@ public class Screen extends JPanel implements ActionListener {
 	boolean debug = false;
 	int board = 0;
 	int totalFrameCount = 0;
-	int menuvar = 0;
+	double menuvar = 0;
 	int creditvar = 0;
+	List<Sprite> objects = new ArrayList<>();
 
 
 	public Screen() {
@@ -65,6 +73,7 @@ public class Screen extends JPanel implements ActionListener {
 		java.util.Timer t = new java.util.Timer();
 		t.schedule(new TimerTask(){ public void run(){ Main.setBoard(Board.MAIN);}}, 500);
 		
+		
 	}
 
 	@Override
@@ -77,16 +86,27 @@ public class Screen extends JPanel implements ActionListener {
 	public void drawMenu(Graphics g) {
 		
 		g.setFont(new Font("Helvetica", Font.PLAIN, getWidth()/50));
-		
+		Utils.drawOutlineString(g, "Loading...", getWidth()/2 - g.getFontMetrics().stringWidth("Loading...")/2, getHeight()/2, Color.RED, Color.BLACK, 1);
 		if(board == Board.MAIN){
-			Utils.drawOutlineString(g, "Loading...", getWidth()/2 - g.getFontMetrics().stringWidth("Loading...")/2, getHeight()/2, Color.RED, Color.BLACK, 1);
-			menuvar = Utils.drawScrollingImage(g, Backgrounds.MAIN.getImage(), menuvar, 0, this.getWidth(), this.getHeight(), 2);
-//			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+			menuvar = Utils.drawScrollingImage(g, Backgrounds.MAIN.getImage(), menuvar, 0, this.getWidth(), this.getHeight(), 1);
 			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
-			g.drawImage(logo, this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
+			g.drawImage(Images.makeImageTranslucent(Images.toBufferedImage(logo), 0.9), this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
+//			for(Sprite sprite : objects){
+//				if(sprite instanceof Moveable){
+//					((Moveable) sprite).move();
+//				}
+//				g.drawImage(sprite.getImage(), sprite.x, sprite.y, sprite.getWidth(), sprite.getHeight(), this);
+//			}
+			
+			g.drawImage(ExternalFile.loadTexture("entity/player/peasant.gif"), getWidth()/4, getHeight()/2, 60, 60, this);
+			g.drawImage(ExternalFile.loadTexture("entity/knight/knight.png"), getWidth()/4 + getWidth()/2, getHeight()/2, 60, 60, this);
+
 		}
 		if(board == Board.CREDITS){
 			g.drawImage(Backgrounds.CREDITS.getImage(), 0, 0, getWidth(), getHeight(), this);
+			Image dark = Images.makeImageTranslucent(Images.toBufferedImage(Images.createColorImage("#000000")), 0.5);
+			g.drawImage(dark, 0, 0, getWidth(), getHeight(), this);
+			dark = null;
 			Utils.drawCredit(g, "Author & Developers", creditvar, 1, Color.BLACK, Color.WHITE, 1);
 			Utils.drawCredit(g, "", creditvar, 2, Color.BLACK, Color.WHITE, 1);
 			Utils.drawCredit(g, "Cameron Witcher (Author)", creditvar, 3, Color.BLACK, Color.WHITE, 1);
@@ -111,6 +131,7 @@ public class Screen extends JPanel implements ActionListener {
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
 			Utils.drawOutlineString(g, "Version: " + Utils.getVersion(), 0, 20, Color.WHITE, Color.BLACK, 1);
 			Utils.drawOutlineString(g, "Clickables: " + Main.getClickables().size(), 0, 40, Color.WHITE, Color.BLACK, 1);
+			Utils.drawOutlineString(g, "Objects: " + objects.size(), 0, 60, Color.WHITE, Color.BLACK, 1);
 			
 				
 		}
@@ -128,19 +149,27 @@ public class Screen extends JPanel implements ActionListener {
 		
 
 		@Override
-		public void keyReleased(KeyEvent event) {
+		public void keyReleased(KeyEvent e) {
+			for(Sprite sprite : objects){
+				if(sprite instanceof Keyable)
+					((Keyable) sprite).keyReleased(e);
+			}
 			
 		}
 
 		@Override
-		public void keyPressed(KeyEvent event) {
-			int key = event.getKeyCode();
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
 			if(key == KeyEvent.VK_F3){
 				if(debug) debug = false;
 				else debug = true;
 			}
 			if(key == KeyEvent.VK_R){
 				Main.setBoard(Board.MAIN);
+			}
+			for(Sprite sprite : objects){
+				if(sprite instanceof Keyable)
+					((Keyable) sprite).keyPressed(e);
 			}
 			
 		}

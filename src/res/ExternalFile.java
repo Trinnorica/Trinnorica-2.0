@@ -59,7 +59,7 @@ public class ExternalFile {
 			return new ImageIcon(ExternalFile.class.getResource("/res/images/" + resource)).getImage();
 		} catch (Exception e) {
 			try {
-				return new ImageIcon(ExternalFile.class.getResource("/res/images/unknown.png")).getImage();
+				return new ImageIcon(ExternalFile.class.getResource("/res/images/test.png")).getImage();
 			} catch (Exception e1) {
 				return null;
 			}

@@ -35,9 +35,9 @@ public class Utils {
 	}
 
 
-	public static int drawScrollingImage(Graphics g, Image image, int x, int y, int width, int height, int speed) {
-		g.drawImage(image, x, y, width, height, null);
-		g.drawImage(image, x+width, y, width, height, null);
+	public static double drawScrollingImage(Graphics g, Image image, double x, int y, int width, int height, int speed) {
+		g.drawImage(image, (int) x, y, width, height, null);
+		g.drawImage(image, (int) (x+width), y, width, height, null);
 		 
         x -= speed;
  
