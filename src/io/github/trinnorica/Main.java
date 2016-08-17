@@ -3,6 +3,8 @@ package io.github.trinnorica;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.trinnorica.entity.Player;
+import io.github.trinnorica.objects.Floor;
 import io.github.trinnorica.utils.Board;
 import io.github.trinnorica.utils.Button;
 import io.github.trinnorica.utils.Clickable;
@@ -38,7 +40,10 @@ public class Main {
 				
 				@Override
 				public void run(){
-					System.out.println("test");
+					screen.objects.clear();
+					screen.objects.add(new Floor(50,400));
+					screen.objects.add(new Player(50,50));
+					
 				}
 			}));
 

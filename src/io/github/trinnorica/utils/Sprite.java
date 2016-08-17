@@ -1,5 +1,6 @@
 package io.github.trinnorica.utils;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Polygon;
 
@@ -19,6 +20,7 @@ public class Sprite {
     private Sprite sprite;
     public Polygon bounds;
     protected boolean exists = false;
+    protected Direction direction = Direction.RIGHT;
 
     public Sprite(int x, int y) {
     	this.sprite = this;
@@ -158,6 +160,15 @@ public class Sprite {
 	
 	public boolean exists(){
 		return exists;
+	}
+
+
+	public void draw(Graphics g) {
+		if(direction == Direction.RIGHT){
+			g.drawImage(getImage(), x, y, width, height, null);
+		} else {
+			g.drawImage(getImage(), x + width, y,-(width), height, null);
+		}
 	}
 
 

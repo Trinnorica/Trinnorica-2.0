@@ -47,7 +47,7 @@ public class Screen extends JPanel implements ActionListener {
 	int totalFrameCount = 0;
 	double menuvar = 0;
 	int creditvar = 0;
-	List<Sprite> objects = new ArrayList<>();
+	public List<Sprite> objects = new ArrayList<>();
 
 
 	public Screen() {
@@ -91,15 +91,16 @@ public class Screen extends JPanel implements ActionListener {
 			menuvar = Utils.drawScrollingImage(g, Backgrounds.MAIN.getImage(), menuvar, 0, this.getWidth(), this.getHeight(), 1);
 			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
 			g.drawImage(Images.makeImageTranslucent(Images.toBufferedImage(logo), 0.9), this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
-//			for(Sprite sprite : objects){
-//				if(sprite instanceof Moveable){
-//					((Moveable) sprite).move();
-//				}
+			for(Sprite sprite : objects){
+				if(sprite instanceof Moveable){
+					((Moveable) sprite).move();
+				}
+				sprite.draw(g);
 //				g.drawImage(sprite.getImage(), sprite.x, sprite.y, sprite.getWidth(), sprite.getHeight(), this);
-//			}
+			}
 			
-			g.drawImage(ExternalFile.loadTexture("entity/player/peasant.gif"), getWidth()/4, getHeight()/2, 60, 60, this);
-			g.drawImage(ExternalFile.loadTexture("entity/knight/knight.png"), getWidth()/4 + getWidth()/2, getHeight()/2, 60, 60, this);
+			g.drawImage(ExternalFile.loadTexture("entity/player/bobbing.gif"), getWidth()/4, getHeight()/2, 60, 60, this);
+			g.drawImage(ExternalFile.loadTexture("entity/knight/bobbing.gif"), getWidth()/4 + getWidth()/2, getHeight()/2, 60, 60, this);
 
 		}
 		if(board == Board.CREDITS){
@@ -108,12 +109,13 @@ public class Screen extends JPanel implements ActionListener {
 			g.drawImage(dark, 0, 0, getWidth(), getHeight(), this);
 			dark = null;
 			Utils.drawCredit(g, "Author & Developers", creditvar, 1, Color.BLACK, Color.WHITE, 1);
-			Utils.drawCredit(g, "", creditvar, 2, Color.BLACK, Color.WHITE, 1);
-			Utils.drawCredit(g, "Cameron Witcher (Author)", creditvar, 3, Color.BLACK, Color.WHITE, 1);
+			Utils.drawCredit(g, "Cameron Witcher (Author)", creditvar, 2, Color.BLACK, Color.WHITE, 1);
+			Utils.drawCredit(g, "Artists and Concept designers", creditvar, 4, Color.BLACK, Color.WHITE, 1);
+			Utils.drawCredit(g, "Herb Yeliab (Head Artist)", creditvar, 5, Color.BLACK, Color.WHITE, 1);
 			
 			Image logo = ExternalFile.loadTexture("logos/logo-title.png");
 			
-			Utils.drawCreditImage(g, logo, creditvar, 5);
+			Utils.drawCreditImage(g, logo, creditvar, 7);
 			
 			
 			creditvar-=1;
@@ -132,6 +134,12 @@ public class Screen extends JPanel implements ActionListener {
 			Utils.drawOutlineString(g, "Version: " + Utils.getVersion(), 0, 20, Color.WHITE, Color.BLACK, 1);
 			Utils.drawOutlineString(g, "Clickables: " + Main.getClickables().size(), 0, 40, Color.WHITE, Color.BLACK, 1);
 			Utils.drawOutlineString(g, "Objects: " + objects.size(), 0, 60, Color.WHITE, Color.BLACK, 1);
+			Utils.drawOutlineString(g, "Flying: " + ((Player) objects.get(1)).flying, 0, 80, Color.WHITE, Color.BLACK, 1);
+			Utils.drawOutlineString(g, "Jumping: " + ((Player) objects.get(1)).jumping, 0, 100, Color.WHITE, Color.BLACK, 1);
+			Utils.drawOutlineString(g, "Onground: " + ((Player) objects.get(1)).onground, 0, 120, Color.WHITE, Color.BLACK, 1);
+			for(Sprite s : objects){
+				g.drawRect((int) s.getPolygon().getBounds().getX(), (int) s.getPolygon().getBounds().getY(), (int) s.getPolygon().getBounds().getWidth(), (int) s.getPolygon().getBounds().getHeight());
+			}
 			
 				
 		}
