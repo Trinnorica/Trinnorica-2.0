@@ -134,9 +134,15 @@ public class Screen extends JPanel implements ActionListener {
 			Utils.drawOutlineString(g, "Version: " + Utils.getVersion(), 0, 20, Color.WHITE, Color.BLACK, 1);
 			Utils.drawOutlineString(g, "Clickables: " + Main.getClickables().size(), 0, 40, Color.WHITE, Color.BLACK, 1);
 			Utils.drawOutlineString(g, "Objects: " + objects.size(), 0, 60, Color.WHITE, Color.BLACK, 1);
-			Utils.drawOutlineString(g, "Flying: " + ((Player) objects.get(1)).flying, 0, 80, Color.WHITE, Color.BLACK, 1);
-			Utils.drawOutlineString(g, "Jumping: " + ((Player) objects.get(1)).jumping, 0, 100, Color.WHITE, Color.BLACK, 1);
-			Utils.drawOutlineString(g, "Onground: " + ((Player) objects.get(1)).onground, 0, 120, Color.WHITE, Color.BLACK, 1);
+			try{
+				Utils.drawOutlineString(g, "Flying: " + ((Player) objects.get(1)).flying, 0, 80, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Jumping: " + ((Player) objects.get(1)).jumping, 0, 100, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Onground: " + ((Player) objects.get(1)).onground, 0, 120, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Playing: True", 0, 140, Color.WHITE, Color.BLACK, 1);
+			} catch(IndexOutOfBoundsException ex){
+				Utils.drawOutlineString(g, "Playing: False", 0, 80, Color.WHITE, Color.BLACK, 1);
+			}
+			
 			for(Sprite s : objects){
 				g.drawRect((int) s.getPolygon().getBounds().getX(), (int) s.getPolygon().getBounds().getY(), (int) s.getPolygon().getBounds().getWidth(), (int) s.getPolygon().getBounds().getHeight());
 			}

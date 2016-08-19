@@ -1,5 +1,6 @@
 package io.github.trinnorica.entity;
 
+import java.awt.Polygon;
 import java.awt.event.KeyEvent;
 
 import io.github.trinnorica.Main;
@@ -9,6 +10,7 @@ import io.github.trinnorica.utils.Keyable;
 import io.github.trinnorica.utils.Moveable;
 import io.github.trinnorica.utils.Sprite;
 import io.github.trinnorica.utils.Velocity;
+import javafx.scene.shape.Rectangle;
 import res.ExternalFile;
 
 public class Player extends Entity implements Moveable,Keyable {
@@ -21,6 +23,7 @@ public class Player extends Entity implements Moveable,Keyable {
 	public boolean jumping = false;
 	public boolean flying = false;
 	private boolean climbing = false;
+	private Polygon xbounds;
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -30,7 +33,8 @@ public class Player extends Entity implements Moveable,Keyable {
 	
 	private void initPlayer() {
 		loadImage(ExternalFile.loadTexture("entity/player/bobbing.gif"));
-		setImageDimensions(30, 30);
+		setImageDimensions(27, 30);
+		xbounds = new Polygon(new int[]{(int) (bounds.getBounds().getX()-1),(int) ((int) bounds.getBounds().getX()+(bounds.getBounds().getWidth()+2)),(int) ((int) bounds.getBounds().getX()+(bounds.getBounds().getWidth()+2)),(int) (bounds.getBounds().getX()-1)}, new int[]{(int) (bounds.getBounds().getY()-1),(int) (bounds.getBounds().getY()-1),(int) ((bounds.getBounds().getY()-1)+bounds.getBounds().getHeight()+2),(int) ((int) ((bounds.getBounds().getY()-1))+bounds.getBounds().getHeight()+2)}, 4);
 	}
 	
 	public void setVelocity(Velocity v){
@@ -63,8 +67,8 @@ public class Player extends Entity implements Moveable,Keyable {
 		
 		for(Sprite s : Main.getScreen().objects){
 			if(!(s instanceof Collidable)) continue;
-			if(!bounds.intersects(s.getPolygon().getBounds())) continue;
-			y = s.getY()-getHeight()+1;
+			if(!xbounds.intersects(s.getPolygon().getBounds().getX(), s.getPolygon().getBounds().getY(), s.getPolygon().getBounds().getWidth(),s.getPolygon().getBounds().getHeight())) continue;
+			y = s.getY()-getHeight();
 			onground = true;
 			
 		}
