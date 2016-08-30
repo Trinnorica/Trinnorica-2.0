@@ -171,6 +171,8 @@ public class Sprite {
 			g.drawImage(getImage(), x + width, y,-(width), height, null);
 		}
 	}
+	
+	
 
 
 //	public void add() {

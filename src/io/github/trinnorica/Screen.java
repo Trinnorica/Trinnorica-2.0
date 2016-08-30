@@ -26,6 +26,7 @@ import io.github.trinnorica.objects.tools.Sword;
 import io.github.trinnorica.utils.Backgrounds;
 import io.github.trinnorica.utils.Board;
 import io.github.trinnorica.utils.Clickable;
+import io.github.trinnorica.utils.Direction;
 import io.github.trinnorica.utils.Images;
 import io.github.trinnorica.utils.Keyable;
 import io.github.trinnorica.utils.Moveable;
@@ -97,13 +98,7 @@ public class Screen extends JPanel implements ActionListener {
 					((Moveable) sprite).move();
 				}
 				sprite.draw(g);
-				if(sprite instanceof Player){
-					Player player = (Player) sprite;
-					if(player.getTool() != null){
-						
-						g.drawImage(Images.rotate(player.getTool().getImage(), r), player.x+10, player.y-50, 30, 30, this);
-					}
-				}
+				
 //				g.drawImage(sprite.getImage(), sprite.x, sprite.y, sprite.getWidth(), sprite.getHeight(), this);
 			}
 			
@@ -113,6 +108,7 @@ public class Screen extends JPanel implements ActionListener {
 			g.drawImage(Images.makeImageTranslucent(Images.toBufferedImage(logo), 0.9), this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
 
 		}
+		
 		if(board == Board.CREDITS){
 			g.drawImage(Backgrounds.CREDITS.getImage(), 0, 0, getWidth(), getHeight(), this);
 			Image dark = Images.makeImageTranslucent(Images.toBufferedImage(Images.createColorImage("#000000")), 0.5);
@@ -144,14 +140,15 @@ public class Screen extends JPanel implements ActionListener {
 			Utils.drawOutlineString(g, "Version: " + Utils.getVersion(), 0, 20, Color.WHITE, Color.BLACK, 1);
 			Utils.drawOutlineString(g, "Clickables: " + Main.getClickables().size(), 0, 40, Color.WHITE, Color.BLACK, 1);
 			Utils.drawOutlineString(g, "Objects: " + objects.size(), 0, 60, Color.WHITE, Color.BLACK, 1);
+			Utils.drawOutlineString(g, "Rotation: " + r, 0, 80, Color.WHITE, Color.BLACK, 1);
 			try{
-				Utils.drawOutlineString(g, "Flying: " + ((Player) objects.get(1)).flying, 0, 80, Color.WHITE, Color.BLACK, 1);
-				Utils.drawOutlineString(g, "Jumping: " + ((Player) objects.get(1)).jumping, 0, 100, Color.WHITE, Color.BLACK, 1);
-				Utils.drawOutlineString(g, "Onground: " + ((Player) objects.get(1)).onground, 0, 120, Color.WHITE, Color.BLACK, 1);
-				Utils.drawOutlineString(g, "Playing: True", 0, 140, Color.WHITE, Color.BLACK, 1);
-				Utils.drawOutlineString(g, "Tool: " + ((Player) objects.get(1)).getTool(), 0, 160, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Flying: " + ((Player) objects.get(1)).flying, 0, 100, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Jumping: " + ((Player) objects.get(1)).jumping, 0, 120, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Onground: " + ((Player) objects.get(1)).onground, 0, 140, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Playing: True", 0, 160, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Tool: " + ((Player) objects.get(1)).getTool(), 0, 180, Color.WHITE, Color.BLACK, 1);
 			} catch(IndexOutOfBoundsException ex){
-				Utils.drawOutlineString(g, "Playing: False", 0, 80, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Playing: False", 0, 100, Color.WHITE, Color.BLACK, 1);
 			}
 			
 			for(Sprite s : objects){
@@ -201,6 +198,14 @@ public class Screen extends JPanel implements ActionListener {
 			if(key == KeyEvent.VK_R){
 				Main.setBoard(Board.MAIN);
 			}
+			
+			if(key == KeyEvent.VK_LEFT){
+				r = r+4;
+			}
+			if(key == KeyEvent.VK_RIGHT){
+				r = r-4;
+			}
+			
 			
 			
 			for(Sprite sprite : objects){

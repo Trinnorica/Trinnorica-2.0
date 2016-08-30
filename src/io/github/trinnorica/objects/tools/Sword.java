@@ -11,6 +11,15 @@ public class Sword extends Tool {
 	
 	private void initSword(){
 		loadImage("objects/tools/sword.png");
+		setImageDimensions(15, 15);
+	}
+	
+	public int getWidth(){
+		return 27;
+	}
+	public int getHeight(){
+		return 27;
+		
 	}
 
 }

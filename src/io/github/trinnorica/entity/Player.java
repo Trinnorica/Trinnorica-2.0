@@ -1,11 +1,13 @@
 package io.github.trinnorica.entity;
 
+import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.event.KeyEvent;
 
 import io.github.trinnorica.Main;
 import io.github.trinnorica.objects.Collidable;
 import io.github.trinnorica.utils.Direction;
+import io.github.trinnorica.utils.Images;
 import io.github.trinnorica.utils.Keyable;
 import io.github.trinnorica.utils.Moveable;
 import io.github.trinnorica.utils.Sprite;
@@ -98,6 +100,17 @@ public class Player extends Entity implements Moveable,Keyable {
 		dy=0;
 		
 	}
+	
+	@Override
+	public void draw(Graphics g){
+		if(direction == Direction.RIGHT){
+			g.drawImage(getImage(), x, y, width, height, null);
+			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 5.0), x, y, tool.getWidth(), tool.getHeight(), null);
+		} else {
+			g.drawImage(getImage(), x + width, y,-(width), height, null);
+			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 5.0), x+tool.getWidth(), y, - tool.getWidth(), tool.getHeight(), null);
+		}
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -161,6 +174,10 @@ public class Player extends Entity implements Moveable,Keyable {
 	}
 
 	public Sprite getTool() {return tool;}
+
+	public void attack() {
+		
+	}
 	
 	
 
