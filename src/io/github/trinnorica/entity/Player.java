@@ -9,8 +9,8 @@ import io.github.trinnorica.utils.Direction;
 import io.github.trinnorica.utils.Keyable;
 import io.github.trinnorica.utils.Moveable;
 import io.github.trinnorica.utils.Sprite;
+import io.github.trinnorica.utils.Tool;
 import io.github.trinnorica.utils.Velocity;
-import javafx.scene.shape.Rectangle;
 import res.ExternalFile;
 
 public class Player extends Entity implements Moveable,Keyable {
@@ -24,6 +24,7 @@ public class Player extends Entity implements Moveable,Keyable {
 	public boolean flying = false;
 	private boolean climbing = false;
 	private Polygon xbounds;
+	private Tool tool;
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -67,7 +68,7 @@ public class Player extends Entity implements Moveable,Keyable {
 		
 		for(Sprite s : Main.getScreen().objects){
 			if(!(s instanceof Collidable)) continue;
-			if(!xbounds.intersects(s.getPolygon().getBounds().getX(), s.getPolygon().getBounds().getY(), s.getPolygon().getBounds().getWidth(),s.getPolygon().getBounds().getHeight())) continue;
+			if(!bounds.intersects(s.getPolygon().getBounds())) continue;
 			y = s.getY()-getHeight();
 			onground = true;
 			
@@ -112,11 +113,11 @@ public class Player extends Entity implements Moveable,Keyable {
 		
 		if(key == KeyEvent.VK_D){
 			direction = Direction.RIGHT;
-			setVelocity(4, "");
+			setVelocity(3, "");
 		}
 		if(key == KeyEvent.VK_A){
 			direction = Direction.LEFT;
-			setVelocity(-4, "");
+			setVelocity(-3, "");
 		}
 		
 		if(key == KeyEvent.VK_SPACE && onground){
@@ -128,6 +129,15 @@ public class Player extends Entity implements Moveable,Keyable {
 		if(key == KeyEvent.VK_F){
 			if(flying) flying = false;
 			else flying = true;
+		}
+		
+
+		if(key == KeyEvent.VK_1){
+			loadImage(ExternalFile.loadTexture("entity/player/bobbing.gif"));
+		}
+
+		if(key == KeyEvent.VK_2){
+			loadImage(ExternalFile.loadTexture("entity/knight/bobbing.gif"));
 		}
 	}
 
@@ -144,6 +154,13 @@ public class Player extends Entity implements Moveable,Keyable {
 			setVelocity(0, "");
 		}
 	}
+	
+	public void setTool(Tool tool){
+		this.tool = tool;
+		
+	}
+
+	public Sprite getTool() {return tool;}
 	
 	
 

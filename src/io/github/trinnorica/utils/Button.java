@@ -3,7 +3,6 @@ package io.github.trinnorica.utils;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 public class Button implements Clickable {

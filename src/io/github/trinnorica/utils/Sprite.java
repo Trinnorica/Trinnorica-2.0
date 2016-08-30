@@ -17,7 +17,8 @@ public class Sprite {
     protected boolean vis;
     private Image image;
     public String imagePath = "";
-    private Sprite sprite;
+    @SuppressWarnings("unused")
+	private Sprite sprite;
     public Polygon bounds;
     protected boolean exists = false;
     protected Direction direction = Direction.RIGHT;

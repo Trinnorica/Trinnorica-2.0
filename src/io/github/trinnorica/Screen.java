@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import io.github.trinnorica.entity.Player;
+import io.github.trinnorica.objects.tools.Sword;
 import io.github.trinnorica.utils.Backgrounds;
 import io.github.trinnorica.utils.Board;
 import io.github.trinnorica.utils.Clickable;
@@ -48,6 +49,7 @@ public class Screen extends JPanel implements ActionListener {
 	double menuvar = 0;
 	int creditvar = 0;
 	public List<Sprite> objects = new ArrayList<>();
+	double r = 0.0;
 
 
 	public Screen() {
@@ -89,18 +91,26 @@ public class Screen extends JPanel implements ActionListener {
 		Utils.drawOutlineString(g, "Loading...", getWidth()/2 - g.getFontMetrics().stringWidth("Loading...")/2, getHeight()/2, Color.RED, Color.BLACK, 1);
 		if(board == Board.MAIN){
 			menuvar = Utils.drawScrollingImage(g, Backgrounds.MAIN.getImage(), menuvar, 0, this.getWidth(), this.getHeight(), 1);
-			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
-			g.drawImage(Images.makeImageTranslucent(Images.toBufferedImage(logo), 0.9), this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
+			
 			for(Sprite sprite : objects){
 				if(sprite instanceof Moveable){
 					((Moveable) sprite).move();
 				}
 				sprite.draw(g);
+				if(sprite instanceof Player){
+					Player player = (Player) sprite;
+					if(player.getTool() != null){
+						
+						g.drawImage(Images.rotate(player.getTool().getImage(), r), player.x+10, player.y-50, 30, 30, this);
+					}
+				}
 //				g.drawImage(sprite.getImage(), sprite.x, sprite.y, sprite.getWidth(), sprite.getHeight(), this);
 			}
 			
 			g.drawImage(ExternalFile.loadTexture("entity/player/bobbing.gif"), getWidth()/4, getHeight()/2, 60, 60, this);
 			g.drawImage(ExternalFile.loadTexture("entity/knight/bobbing.gif"), getWidth()/4 + getWidth()/2, getHeight()/2, 60, 60, this);
+			Image logo  = ExternalFile.loadTexture("logos/logo-title.png");
+			g.drawImage(Images.makeImageTranslucent(Images.toBufferedImage(logo), 0.9), this.getWidth()/2 - logo.getWidth(this)/2, this.getHeight()/2 - logo.getHeight(this)/2, this);
 
 		}
 		if(board == Board.CREDITS){
@@ -139,6 +149,7 @@ public class Screen extends JPanel implements ActionListener {
 				Utils.drawOutlineString(g, "Jumping: " + ((Player) objects.get(1)).jumping, 0, 100, Color.WHITE, Color.BLACK, 1);
 				Utils.drawOutlineString(g, "Onground: " + ((Player) objects.get(1)).onground, 0, 120, Color.WHITE, Color.BLACK, 1);
 				Utils.drawOutlineString(g, "Playing: True", 0, 140, Color.WHITE, Color.BLACK, 1);
+				Utils.drawOutlineString(g, "Tool: " + ((Player) objects.get(1)).getTool(), 0, 160, Color.WHITE, Color.BLACK, 1);
 			} catch(IndexOutOfBoundsException ex){
 				Utils.drawOutlineString(g, "Playing: False", 0, 80, Color.WHITE, Color.BLACK, 1);
 			}
@@ -174,6 +185,15 @@ public class Screen extends JPanel implements ActionListener {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
+			if(key == KeyEvent.VK_5){
+				for(Sprite sprite : objects){
+					
+					if(sprite instanceof Player){
+						Player player = (Player) sprite;
+						player.setTool(new Sword(0,0));
+					}
+				}
+			}
 			if(key == KeyEvent.VK_F3){
 				if(debug) debug = false;
 				else debug = true;
@@ -181,6 +201,8 @@ public class Screen extends JPanel implements ActionListener {
 			if(key == KeyEvent.VK_R){
 				Main.setBoard(Board.MAIN);
 			}
+			
+			
 			for(Sprite sprite : objects){
 				if(sprite instanceof Keyable)
 					((Keyable) sprite).keyPressed(e);
