@@ -27,6 +27,7 @@ public class Player extends Entity implements Moveable,Keyable {
 	private boolean climbing = false;
 	private Polygon xbounds;
 	private Tool tool;
+	private int s = 1;
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -35,8 +36,8 @@ public class Player extends Entity implements Moveable,Keyable {
 	}
 	
 	private void initPlayer() {
-		loadImage(ExternalFile.loadTexture("entity/player/bobbing.gif"));
-		setImageDimensions(27, 30);
+		loadImage(ExternalFile.loadTexture("entity/player/player.png"));
+		setImageDimensions(27+s, 30+s);
 		xbounds = new Polygon(new int[]{(int) (bounds.getBounds().getX()-1),(int) ((int) bounds.getBounds().getX()+(bounds.getBounds().getWidth()+2)),(int) ((int) bounds.getBounds().getX()+(bounds.getBounds().getWidth()+2)),(int) (bounds.getBounds().getX()-1)}, new int[]{(int) (bounds.getBounds().getY()-1),(int) (bounds.getBounds().getY()-1),(int) ((bounds.getBounds().getY()-1)+bounds.getBounds().getHeight()+2),(int) ((int) ((bounds.getBounds().getY()-1))+bounds.getBounds().getHeight()+2)}, 4);
 	}
 	
@@ -133,10 +134,20 @@ public class Player extends Entity implements Moveable,Keyable {
 			setVelocity(-3, "");
 		}
 		
+		if(key == KeyEvent.VK_UP){
+			s = s+1;
+			setImageDimensions(27+s, 30+s);
+			
+		}
+		if(key == KeyEvent.VK_DOWN){
+			s = s-1;
+			setImageDimensions(27+s, 30+s);
+		}
+		
 		if(key == KeyEvent.VK_SPACE && onground){
 			jumping = true;
 			onground = false;
-			setVelocity("",-5);
+			setVelocity("",-5-(s/10));
 		}
 		
 		if(key == KeyEvent.VK_F){
@@ -146,11 +157,13 @@ public class Player extends Entity implements Moveable,Keyable {
 		
 
 		if(key == KeyEvent.VK_1){
-			loadImage(ExternalFile.loadTexture("entity/player/bobbing.gif"));
+			loadImage(ExternalFile.loadTexture("entity/player/player.png"));
+			setImageDimensions(27+s, 30+s);
 		}
 
 		if(key == KeyEvent.VK_2){
-			loadImage(ExternalFile.loadTexture("entity/knight/bobbing.gif"));
+			loadImage(ExternalFile.loadTexture("entity/knight/knight.png"));
+			setImageDimensions(27+s, 30+s);
 		}
 	}
 
