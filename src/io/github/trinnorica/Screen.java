@@ -128,6 +128,14 @@ public class Screen extends JPanel implements ActionListener {
 			
 		}
 		
+		if(board == Board.TEST){
+			g.drawImage(Backgrounds.MAIN.getImage(), 0, 0, getWidth(), getHeight(), this);
+			
+			//Put your code here Blake. Press R to get back to the main menu. If you press T it will bring you to the test board. I want you to create an image, display it here, and have it move. To move it use variables, and if  you wanna get really fancy, make it controllable!
+			
+			//g.drawImage(ExturnalFile.loadImage("image.png"), x, y, this);
+		}
+		
 		
 		for(Clickable c : Main.getClickables()){
 			c.drawPolygon(g);
@@ -196,6 +204,9 @@ public class Screen extends JPanel implements ActionListener {
 			}
 			if(key == KeyEvent.VK_R){
 				Main.setBoard(Board.MAIN);
+			}
+			if(key == KeyEvent.VK_T){
+				Main.setBoard(Board.TEST);
 			}
 			
 			if(key == KeyEvent.VK_LEFT){

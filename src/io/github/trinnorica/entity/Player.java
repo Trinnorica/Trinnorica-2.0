@@ -112,7 +112,7 @@ public class Player extends Entity implements Moveable,Keyable {
 				utoolt=utoolt-1;
 				if(utoolt == 0) utool = false;
 				g.drawImage(tool.getImage(), x+20, y, tool.getWidth(), tool.getHeight(), null);
-				g.drawImage(ExternalFile.loadTexture("swipe.png"), x+30+tool.width, y, 7*2, 15*2, null);
+				g.drawImage(ExternalFile.loadTexture("swipe.gif"), x+30+tool.width, y, 7*2, 15*2, null);
 			}
 //			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 0.0), x+20, y, tool.getWidth(), tool.getHeight(), null);
 		} else {
@@ -121,6 +121,8 @@ public class Player extends Entity implements Moveable,Keyable {
 				utoolt=utoolt-1;
 				if(utoolt == 0) utool = false;
 				g.drawImage(tool.getImage(), x+tool.getWidth()-20, y, - tool.getWidth(), tool.getHeight(), null);
+				g.drawImage(ExternalFile.loadTexture("swipe.gif"), x+(7*2)-30, y, -(7*2), 15*2, null);
+//				g.drawImage(ExternalFile.loadTexture("swipe.gif"), x+30+tool.width, y, 7*2 * - tool.width, 15*2, null);
 			}
 //			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 0.0), x+tool.getWidth()-20, y, - tool.getWidth(), tool.getHeight(), null);
 		}
@@ -152,7 +154,7 @@ public class Player extends Entity implements Moveable,Keyable {
 			setVelocity(-3, "");
 		}
 		if(key == KeyEvent.VK_SHIFT){
-			if(tool != null){
+			if(tool != null && !utool){
 				useTool();
 			}
 		}
