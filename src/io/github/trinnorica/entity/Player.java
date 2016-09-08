@@ -28,6 +28,8 @@ public class Player extends Entity implements Moveable,Keyable {
 	private Polygon xbounds;
 	private Tool tool;
 	private int s = 1;
+	private boolean utool = false;
+	private int utoolt = 0;
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -106,11 +108,26 @@ public class Player extends Entity implements Moveable,Keyable {
 	public void draw(Graphics g){
 		if(direction == Direction.RIGHT){
 			g.drawImage(getImage(), x, y, width, height, null);
-			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 5.0), x, y, tool.getWidth(), tool.getHeight(), null);
+			if(utool){
+				utoolt=utoolt-1;
+				if(utoolt == 0) utool = false;
+				g.drawImage(tool.getImage(), x+20, y, tool.getWidth(), tool.getHeight(), null);
+			}
+//			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 0.0), x+20, y, tool.getWidth(), tool.getHeight(), null);
 		} else {
 			g.drawImage(getImage(), x + width, y,-(width), height, null);
-			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 5.0), x+tool.getWidth(), y, - tool.getWidth(), tool.getHeight(), null);
+			if(utool){
+				utoolt=utoolt-1;
+				if(utoolt == 0) utool = false;
+				g.drawImage(tool.getImage(), x+tool.getWidth()-20, y, - tool.getWidth(), tool.getHeight(), null);
+			}
+//			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 0.0), x+tool.getWidth()-20, y, - tool.getWidth(), tool.getHeight(), null);
 		}
+	}
+	
+	void useTool(){
+		utool = true;
+		utoolt = 10;
 	}
 
 	@Override
@@ -132,6 +149,11 @@ public class Player extends Entity implements Moveable,Keyable {
 		if(key == KeyEvent.VK_A){
 			direction = Direction.LEFT;
 			setVelocity(-3, "");
+		}
+		if(key == KeyEvent.VK_SHIFT){
+			if(tool != null){
+				useTool();
+			}
 		}
 		
 		if(key == KeyEvent.VK_UP){

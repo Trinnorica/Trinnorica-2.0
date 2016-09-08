@@ -99,7 +99,6 @@ public class Screen extends JPanel implements ActionListener {
 				}
 				sprite.draw(g);
 				
-//				g.drawImage(sprite.getImage(), sprite.x, sprite.y, sprite.getWidth(), sprite.getHeight(), this);
 			}
 			
 			g.drawImage(ExternalFile.loadTexture("entity/player/player.png"), getWidth()/4, getHeight()/2, 60, 60, this);
