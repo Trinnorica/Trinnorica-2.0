@@ -64,6 +64,15 @@ public class Utils {
 	}
 
 
+	public static boolean creditsOver(Graphics g, int creditvar, int i) {
+
+		if((((g.getFontMetrics().getHeight())*i)+creditvar==-540)){
+			return true;
+		}
+		return false;
+	}
+
+
 	
 
 	

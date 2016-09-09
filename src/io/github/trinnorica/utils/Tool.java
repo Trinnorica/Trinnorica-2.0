@@ -6,4 +6,14 @@ public class Tool extends Sprite {
 		super(x, y);
 	}
 
+	public void use() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void use(int x, int y, Velocity velocity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

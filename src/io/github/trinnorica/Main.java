@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.trinnorica.entity.Player;
+import io.github.trinnorica.entity.projectiles.Projectile;
 import io.github.trinnorica.objects.Floor;
 import io.github.trinnorica.utils.Board;
 import io.github.trinnorica.utils.Button;
@@ -63,6 +64,10 @@ public class Main {
 	public static List<Clickable> getClickables(){
 		return clickables;
 		
+	}
+
+	public static void addProjectile(Projectile pro) {
+		screen.objects.add(pro);
 	}
 
 }

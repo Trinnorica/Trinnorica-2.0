@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import io.github.trinnorica.entity.Player;
+import io.github.trinnorica.objects.tools.FireStaff;
 import io.github.trinnorica.objects.tools.Sword;
 import io.github.trinnorica.utils.Backgrounds;
 import io.github.trinnorica.utils.Board;
@@ -113,17 +114,23 @@ public class Screen extends JPanel implements ActionListener {
 			Image dark = Images.makeImageTranslucent(Images.toBufferedImage(Images.createColorImage("#000000")), 0.5);
 			g.drawImage(dark, 0, 0, getWidth(), getHeight(), this);
 			dark = null;
-			Utils.drawCredit(g, "Author & Developers", creditvar, 1, Color.BLACK, Color.WHITE, 1);
-			Utils.drawCredit(g, "Cameron Witcher (Author)", creditvar, 2, Color.BLACK, Color.WHITE, 1);
-			Utils.drawCredit(g, "Artists and Concept designers", creditvar, 4, Color.BLACK, Color.WHITE, 1);
-			Utils.drawCredit(g, "Herb Yeliab (Head Artist)", creditvar, 5, Color.BLACK, Color.WHITE, 1);
+			Utils.drawCredit(g, "Author & Developers:", creditvar, 1, Color.WHITE, Color.BLACK, 1);
+			Utils.drawCredit(g, "Cameron Witcher", creditvar, 2, Color.BLACK, Color.WHITE, 1);
+			Utils.drawCredit(g, "Blake Ohlmeier", creditvar, 3, Color.BLACK, Color.WHITE, 1);
+			
+			Utils.drawCredit(g, "Artists and Concept designers", creditvar, 5, Color.WHITE, Color.BLACK, 1);
+			Utils.drawCredit(g, "Herb Yeliab (Head Artist)", creditvar, 6, Color.BLACK, Color.WHITE, 1);
 			
 			Image logo = ExternalFile.loadTexture("logos/logo-title.png");
 			
-			Utils.drawCreditImage(g, logo, creditvar, 7);
+			Utils.drawCreditImage(g, logo, creditvar, 8);
 			
 			
 			creditvar-=1;
+			
+			if(Utils.creditsOver(g, creditvar, 8)){
+				Main.setBoard(Board.MAIN);
+			}
 			
 			
 		}
@@ -195,6 +202,15 @@ public class Screen extends JPanel implements ActionListener {
 					if(sprite instanceof Player){
 						Player player = (Player) sprite;
 						player.setTool(new Sword(0,0));
+					}
+				}
+			}
+			if(key == KeyEvent.VK_6){
+				for(Sprite sprite : objects){
+					
+					if(sprite instanceof Player){
+						Player player = (Player) sprite;
+						player.setTool(new FireStaff(0,0));
 					}
 				}
 			}
