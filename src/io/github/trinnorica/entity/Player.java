@@ -6,8 +6,8 @@ import java.awt.event.KeyEvent;
 
 import io.github.trinnorica.Main;
 import io.github.trinnorica.objects.Collidable;
+import io.github.trinnorica.objects.tools.FireStaff;
 import io.github.trinnorica.utils.Direction;
-import io.github.trinnorica.utils.Images;
 import io.github.trinnorica.utils.Keyable;
 import io.github.trinnorica.utils.Moveable;
 import io.github.trinnorica.utils.Sprite;
@@ -114,7 +114,8 @@ public class Player extends Entity implements Moveable,Keyable {
 				g.drawImage(ExternalFile.loadTexture("swipe.gif"), x+30+tool.width, y, 7*2, 15*2, null);
 				g.drawImage(tool.getImage(), x+20, y, tool.getWidth(), tool.getHeight(), null);
 				if(direction == Direction.LEFT){
-					tool.use(x,y,new Velocity(-2,0));
+					
+					
 				}
 			}
 //			if(tool != null) g.drawImage(Images.rotate(tool.getImage(), 0.0), x+20, y, tool.getWidth(), tool.getHeight(), null);
@@ -135,6 +136,8 @@ public class Player extends Entity implements Moveable,Keyable {
 	void useTool(){
 		utool = true;
 		utoolt = 10;
+		System.out.println("1");
+		((FireStaff)tool).use(x,y,new Velocity(-2,0));
 	}
 
 	@Override

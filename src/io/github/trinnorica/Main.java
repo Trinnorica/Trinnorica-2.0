@@ -67,7 +67,7 @@ public class Main {
 	}
 
 	public static void addProjectile(Projectile pro) {
-		screen.objects.add(pro);
+		screen.addSprites(pro);
 	}
 
 }
