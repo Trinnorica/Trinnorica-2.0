@@ -25,8 +25,8 @@ public class FireStaff extends Tool {
 		
 	}
 	
-	public void use(double x, double y, double dx, double dy){
-		Main.addProjectile(new Fireball((int)x,(int)y,new Velocity(dx, dx)))
+	public void use(double x, double y, Velocity v){
+		Main.addProjectile(new Fireball((int)x,(int)y,v));
 	}
 
 }
