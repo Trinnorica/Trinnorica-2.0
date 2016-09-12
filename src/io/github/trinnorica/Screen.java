@@ -66,7 +66,7 @@ public class Screen extends JPanel implements ActionListener {
 		timer.start();
 
 		addKeyListener(new TAdapter());
-		addMouseMotionListener(new MMListener());
+		addMouseMotionListener(new MMListener()); 
 		addMouseListener(new MListener());
 
 		setLayout(null);
@@ -137,11 +137,15 @@ public class Screen extends JPanel implements ActionListener {
 			Image dark = Images.makeImageTranslucent(Images.toBufferedImage(Images.createColorImage("#000000")), 0.5);
 			g.drawImage(dark, 0, 0, getWidth(), getHeight(), this);
 			dark = null;
-			Utils.drawCredit(g, "Author & Developers:", creditvar, 1, Color.WHITE, Color.BLACK, 1);
+			g.setFont(new Font("Helvetica", Font.BOLD, getWidth() / 50));
+			Utils.drawCredit(g, "Author & Developers:", creditvar, 1, Color.BLACK, Color.WHITE, 1);
+			g.setFont(new Font("Helvetica", Font.PLAIN, getWidth() / 50));
 			Utils.drawCredit(g, "Cameron Witcher", creditvar, 2, Color.BLACK, Color.WHITE, 1);
 			Utils.drawCredit(g, "Blake Ohlmeier", creditvar, 3, Color.BLACK, Color.WHITE, 1);
 
-			Utils.drawCredit(g, "Artists and Concept designers", creditvar, 5, Color.WHITE, Color.BLACK, 1);
+			g.setFont(new Font("Helvetica", Font.BOLD, getWidth() / 50));
+			Utils.drawCredit(g, "Artists and Concept designers", creditvar, 5, Color.BLACK, Color.WHITE, 1);
+			g.setFont(new Font("Helvetica", Font.PLAIN, getWidth() / 50));
 			Utils.drawCredit(g, "Herb Yeliab (Head Artist)", creditvar, 6, Color.BLACK, Color.WHITE, 1);
 
 			Image logo = ExternalFile.loadTexture("logos/logo-title.png");
