@@ -25,9 +25,10 @@ public class FireStaff extends Tool {
 		
 	}
 	
-	public void use(double x, double y, Velocity v){
+	@Override
+	public void use(int x, int y, Velocity velocity){
 		System.out.println("1");
-		Main.addProjectile(new Fireball((int)x,(int)y,v));
+		Main.addProjectile(new Fireball((int)x,(int)y,velocity));
 	}
 
 }

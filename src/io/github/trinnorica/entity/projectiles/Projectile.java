@@ -1,9 +1,13 @@
 package io.github.trinnorica.entity.projectiles;
 
-import io.github.trinnorica.entity.Entity;
-import io.github.trinnorica.utils.Velocity;
+import java.awt.Graphics;
 
-public class Projectile extends Entity {
+import io.github.trinnorica.entity.Entity;
+import io.github.trinnorica.utils.Moveable;
+import io.github.trinnorica.utils.Velocity;
+import res.ExternalFile;
+
+public class Projectile extends Entity implements Moveable{
 	
 	Velocity vector;
 
@@ -12,7 +16,8 @@ public class Projectile extends Entity {
 		vector = vec;
 	}
 	
-	public void updateLocation(){
+	@Override
+	public void move(){
 		x=(int) (x+vector.x);
 		y=(int) (y+vector.y);
 		
@@ -20,6 +25,16 @@ public class Projectile extends Entity {
 	
 	public void updateVelocity(Velocity velocity){
 		vector = velocity;
+	}
+	
+	@Override
+	public void draw(Graphics g){
+		if(vector.x > 0){
+			g.drawImage(getImage(), x, y, width, height, null);
+			
+		} else {
+			g.drawImage(getImage(), x+getWidth(), y, - getWidth(), getHeight(), null);
+		}
 	}
 	
 

@@ -22,13 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import io.github.trinnorica.entity.Player;
-import io.github.trinnorica.entity.projectiles.Projectile;
 import io.github.trinnorica.objects.tools.FireStaff;
 import io.github.trinnorica.objects.tools.Sword;
 import io.github.trinnorica.utils.Backgrounds;
 import io.github.trinnorica.utils.Board;
 import io.github.trinnorica.utils.Clickable;
-import io.github.trinnorica.utils.Direction;
 import io.github.trinnorica.utils.Images;
 import io.github.trinnorica.utils.Keyable;
 import io.github.trinnorica.utils.Moveable;
@@ -53,6 +51,7 @@ public class Screen extends JPanel implements ActionListener {
 	int creditvar = 0;
 	public List<Sprite> objects = new ArrayList<>();
 	public List<Sprite> objects_temp = new ArrayList<>();
+	public List<Sprite> objects_remove = new ArrayList<>();
 	double r = 0.0;
 	boolean adding = false;
 	boolean test = false;
@@ -76,6 +75,9 @@ public class Screen extends JPanel implements ActionListener {
 
 		setPreferredSize(new Dimension(1920, 1080));
 
+		setSize(new Dimension(1920, 1080));
+		setMinimumSize(new Dimension(1920, 1080));
+		
 		Main.setScreen(this);
 		java.util.Timer t = new java.util.Timer();
 		t.schedule(new TimerTask() {
@@ -107,8 +109,17 @@ public class Screen extends JPanel implements ActionListener {
 					((Moveable) sprite).move();
 				}
 				sprite.draw(g);
-
+				
+				if(sprite.x < 0 || sprite.x > 2000 || sprite.y < 0){
+					objects_remove.add(sprite);
+				}
 			}
+			
+			for(Sprite sprite : objects_remove){
+				objects.remove(sprite);
+			}
+			
+			objects_remove.clear();
 
 			g.drawImage(ExternalFile.loadTexture("entity/player/player.png"), getWidth() / 4, getHeight() / 2, 60, 60,
 					this);
