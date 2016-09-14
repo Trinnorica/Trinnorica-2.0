@@ -6,11 +6,9 @@ import java.awt.event.MouseEvent;
 
 public interface Clickable {
 
-	void mouseMoved(MouseEvent e);
-	void mouseEntered(MouseEvent e);
-	void mouseExited(MouseEvent e);
-	void mousePressed(MouseEvent e);
-	void mouseReleased(MouseEvent e);
+	void select();
+	void deselect();
+	boolean selected();
 	Polygon getPolygon();
 	Polygon drawPolygon(Graphics g);
 

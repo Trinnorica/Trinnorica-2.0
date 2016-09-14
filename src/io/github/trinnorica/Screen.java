@@ -10,11 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -22,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import io.github.trinnorica.entity.Player;
+import io.github.trinnorica.objects.Floor;
 import io.github.trinnorica.objects.tools.FireStaff;
 import io.github.trinnorica.objects.tools.Sword;
 import io.github.trinnorica.utils.Backgrounds;
@@ -66,8 +63,8 @@ public class Screen extends JPanel implements ActionListener {
 		timer.start();
 
 		addKeyListener(new TAdapter());
-		addMouseMotionListener(new MMListener()); 
-		addMouseListener(new MListener());
+//		addMouseMotionListener(new MMListener()); 
+//		addMouseListener(new MListener());
 
 		setLayout(null);
 
@@ -103,7 +100,9 @@ public class Screen extends JPanel implements ActionListener {
 		if (board == Board.MAIN) {
 			menuvar = Utils.drawScrollingImage(g, Backgrounds.MAIN.getImage(), menuvar, 0, this.getWidth(),
 					this.getHeight(), 1);
-
+			g.setFont(new Font("Helvetica", Font.BOLD, 35));
+			Utils.drawOutlineString(g, "Press 'P' to play!", getWidth()/2 - (g.getFontMetrics().stringWidth("Press 'P' to play!")/2), getHeight()/4 + getHeight()/2, Color.decode("#99db45"), Color.WHITE, 2);
+			g.setFont(new Font("Helvetica", Font.PLAIN, getWidth() / 50));
 			for (Sprite sprite : objects) {
 				if (sprite instanceof Moveable) {
 					((Moveable) sprite).move();
@@ -235,6 +234,18 @@ public class Screen extends JPanel implements ActionListener {
 					}
 				}
 			}
+			
+			if(key == KeyEvent.VK_P){
+				objects.clear();
+				objects.add(new Floor(50,500));
+				objects.add(new Player(50,50));
+			}
+			
+			if(key == KeyEvent.VK_C){
+				objects.clear();
+				Main.setBoard(Board.CREDITS);	
+			}
+			
 			if (key == KeyEvent.VK_6) {
 				for (Sprite sprite : objects) {
 
@@ -257,9 +268,30 @@ public class Screen extends JPanel implements ActionListener {
 				Main.setBoard(Board.TEST);
 			}
 
-			if (key == KeyEvent.VK_LEFT) {
-				r = r + 4;
-			}
+//			if (key == KeyEvent.VK_LEFT) {
+//				System.out.println("1");
+//				for(Clickable c : Main.getClickables()){
+//					System.out.println("2");
+//					if(Main.clickables_t.isEmpty()){
+//						System.out.println("3");
+//						if(c.selected()){
+//							System.out.println("4");
+//							Main.clickables_t.add(c);
+//							System.out.println("5");
+//						}
+//					} else {
+//						Main.clickables_t.add(c);
+//						System.out.println("6");
+//						break;
+//					}
+//					
+//				}
+//				Main.clickables_t.get(0).deselect();
+//				System.out.println("3");
+//				Main.clickables_t.get(1).select();
+//				System.out.println("4");
+//				Main.clickables_t.clear();
+//			}
 			if (key == KeyEvent.VK_RIGHT) {
 				r = r - 4;
 			}
@@ -276,47 +308,47 @@ public class Screen extends JPanel implements ActionListener {
 		}
 	}
 
-	private class MMListener extends MouseMotionAdapter {
+//	private class MMListener extends MouseMotionAdapter {
+//
+//		public void mouseMoved(MouseEvent e) {
+//			for (Clickable c : Main.getClickables()) {
+//				if (c.getPolygon().contains(e.getPoint()))
+//					c.mouseEntered(e);
+//				else
+//					c.mouseExited(e);
+//			}
+//
+//		}
+//
+//		public void mouseDragged(MouseEvent e) {
+//
+//		}
+//	}
 
-		public void mouseMoved(MouseEvent e) {
-			for (Clickable c : Main.getClickables()) {
-				if (c.getPolygon().contains(e.getPoint()))
-					c.mouseEntered(e);
-				else
-					c.mouseExited(e);
-			}
-
-		}
-
-		public void mouseDragged(MouseEvent e) {
-
-		}
-	}
-
-	private class MListener extends MouseAdapter {
-
-		public void mouseClicked(MouseEvent e) {
-
-		}
-
-		public void mousePressed(MouseEvent e) {
-			try {
-				for (Clickable c : Main.getClickables())
-					if (c.getPolygon().contains(e.getPoint()))
-						c.mousePressed(e);
-			} catch (ConcurrentModificationException ex) {
-				return;
-			}
-
-		}
-
-		public void mouseReleased(MouseEvent e) {
-			for (Clickable c : Main.getClickables())
-				if (c.getPolygon().contains(e.getPoint()))
-					c.mouseReleased(e);
-
-		}
-	}
+//	private class MListener extends MouseAdapter {
+//
+//		public void mouseClicked(MouseEvent e) {
+//
+//		}
+//
+//		public void mousePressed(MouseEvent e) {
+//			try {
+//				for (Clickable c : Main.getClickables())
+//					if (c.getPolygon().contains(e.getPoint()))
+//						c.mousePressed(e);
+//			} catch (ConcurrentModificationException ex) {
+//				return;
+//			}
+//
+//		}
+//
+//		public void mouseReleased(MouseEvent e) {
+//			for (Clickable c : Main.getClickables())
+//				if (c.getPolygon().contains(e.getPoint()))
+//					c.mouseReleased(e);
+//
+//		}
+//	}
 
 	public void addSprites(Sprite sprite) {
 		objects_temp.add(sprite);
